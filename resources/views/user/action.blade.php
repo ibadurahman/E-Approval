@@ -1,0 +1,1 @@
+<a href="{{url('user/1/edit')}}">Edit<i class="fas fa-edit"></i></a>
