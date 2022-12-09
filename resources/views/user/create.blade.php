@@ -53,6 +53,21 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
+                                    <label for="">Posisi</label>
+                                    @foreach ($positions as $position)
+                                        <div class="form-check">
+                                            <input name="position" class="form-check-input" type="radio"
+                                                value="{{ $position->id }}">
+                                            <label class="form-check-label">
+                                                {{ $position->name }}
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                    @error('position')
+                                        <span class="text-danger help-block">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
                                     <div class="mb-3">
                                         <label class="form-label">Tanda Tangan</label>
                                         <input class="form-control @error('sign') is-invalid @enderror" type="file" name="sign">

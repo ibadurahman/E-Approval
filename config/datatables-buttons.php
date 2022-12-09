@@ -50,7 +50,7 @@ return [
             'margin-top'    => '10mm',
             'margin-bottom' => '10mm',
         ],
-        'orientation' => 'potrait',
+        'orientation' => 'portrait',
     ],
 
     /*

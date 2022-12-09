@@ -45,6 +45,10 @@ class ComposerStaticInite3be0deafdc0a8828fcddd9739282596
         array (
             'voku\\' => 5,
         ),
+        'h' => 
+        array (
+            'h4cc\\WKHTMLToPDF\\' => 17,
+        ),
         'Z' => 
         array (
             'ZipStream\\' => 10,
@@ -205,6 +209,10 @@ class ComposerStaticInite3be0deafdc0a8828fcddd9739282596
         'voku\\' => 
         array (
             0 => __DIR__ . '/..' . '/voku/portable-ascii/src/voku',
+        ),
+        'h4cc\\WKHTMLToPDF\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/h4cc/wkhtmltopdf-amd64',
         ),
         'ZipStream\\' => 
         array (
@@ -630,7 +638,9 @@ class ComposerStaticInite3be0deafdc0a8828fcddd9739282596
         'App\\Actions\\Fortify\\UpdateUserPassword' => __DIR__ . '/../..' . '/app/Actions/Fortify/UpdateUserPassword.php',
         'App\\Actions\\Fortify\\UpdateUserProfileInformation' => __DIR__ . '/../..' . '/app/Actions/Fortify/UpdateUserProfileInformation.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
+        'App\\DataTables\\DealerApproveRuleDataTable' => __DIR__ . '/../..' . '/app/DataTables/DealerApproveRuleDataTable.php',
         'App\\DataTables\\DealerDataTable' => __DIR__ . '/../..' . '/app/DataTables/DealerDataTable.php',
+        'App\\DataTables\\PositionDataTable' => __DIR__ . '/../..' . '/app/DataTables/PositionDataTable.php',
         'App\\DataTables\\UsersDataTable' => __DIR__ . '/../..' . '/app/DataTables/UsersDataTable.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
@@ -640,8 +650,10 @@ class ComposerStaticInite3be0deafdc0a8828fcddd9739282596
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\DealerApproveRuleController' => __DIR__ . '/../..' . '/app/Http/Controllers/DealerApproveRuleController.php',
         'App\\Http\\Controllers\\DealerController' => __DIR__ . '/../..' . '/app/Http/Controllers/DealerController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
+        'App\\Http\\Controllers\\PositionController' => __DIR__ . '/../..' . '/app/Http/Controllers/PositionController.php',
         'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
@@ -653,9 +665,12 @@ class ComposerStaticInite3be0deafdc0a8828fcddd9739282596
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\ValidateSignature' => __DIR__ . '/../..' . '/app/Http/Middleware/ValidateSignature.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Http\\Requests\\DealerApproveRuleRequest' => __DIR__ . '/../..' . '/app/Http/Requests/DealerApproveRuleRequest.php',
         'App\\Http\\Requests\\DealerRequest' => __DIR__ . '/../..' . '/app/Http/Requests/DealerRequest.php',
         'App\\Http\\Requests\\UserRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UserRequest.php',
         'App\\Models\\Dealer' => __DIR__ . '/../..' . '/app/Models/Dealer.php',
+        'App\\Models\\DealerApproveRule' => __DIR__ . '/../..' . '/app/Models/DealerApproveRule.php',
+        'App\\Models\\Position' => __DIR__ . '/../..' . '/app/Models/Position.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
@@ -864,6 +879,7 @@ class ComposerStaticInite3be0deafdc0a8828fcddd9739282596
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
         'Database\\Seeders\\DealerSeeder' => __DIR__ . '/../..' . '/database/seeders/DealerSeeder.php',
+        'Database\\Seeders\\PositionSeeder' => __DIR__ . '/../..' . '/database/seeders/PositionSeeder.php',
         'Database\\Seeders\\UserSeeder' => __DIR__ . '/../..' . '/database/seeders/UserSeeder.php',
         'DeepCopy\\DeepCopy' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/DeepCopy.php',
         'DeepCopy\\Exception\\CloneException' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/Exception/CloneException.php',
@@ -7110,6 +7126,7 @@ class ComposerStaticInite3be0deafdc0a8828fcddd9739282596
         'ZipStream\\Option\\Version' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/Option/Version.php',
         'ZipStream\\Stream' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/Stream.php',
         'ZipStream\\ZipStream' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/ZipStream.php',
+        'h4cc\\WKHTMLToPDF\\WKHTMLToPDF' => __DIR__ . '/..' . '/h4cc/wkhtmltopdf-amd64/WKHTMLToPDF.php',
         'voku\\helper\\ASCII' => __DIR__ . '/..' . '/voku/portable-ascii/src/voku/helper/ASCII.php',
     );
 

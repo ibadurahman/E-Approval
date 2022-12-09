@@ -4,12 +4,11 @@ namespace App\DataTables;
 
 use App\Models\User;
 use App\Models\Dealer;
-use Yajra\DataTables\Html\Button;
+use App\Models\Position;
 use Yajra\DataTables\Html\Column;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Services\DataTable;
-use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
 class UsersDataTable extends DataTable
@@ -24,7 +23,17 @@ class UsersDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
                     ->addIndexColumn()
-                    ->addcolumn('action','user.action')
+                    ->addColumn('action','user.action')
+                    ->addColumn('position',function(User $user)
+                    {
+                        $position = DB::table('model_has_position')->where('user_id',$user->id)->first();
+                        if(!$position)
+                        {
+                            return '';
+                        }
+                        $ps = Position::where('id',$position->position_id)->first();
+                        return $ps->name;
+                    })
                     ->addColumn('dealer',function(User $user){
                         $dealers = DB::table('model_has_dealer')->where('user_id',$user->id)->get();
                         $results = [];
@@ -78,7 +87,7 @@ class UsersDataTable extends DataTable
                     ->selectStyleSingle()
                     ->parameters([
                         'dom'     => 'Bfrtip',
-                        'buttons' => ['create','excel','pdf','reload'],
+                        'buttons' => ['create','excel','reload'],
                     ]);
     }
 
@@ -94,6 +103,7 @@ class UsersDataTable extends DataTable
             Column::make('name'),
             Column::make('email'),
             Column::make('phone'),
+            Column::make('position'),
             Column::make('dealer'),
             Column::make('status'),
             Column::make('sign'),

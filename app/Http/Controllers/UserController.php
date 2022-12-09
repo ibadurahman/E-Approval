@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Dealer;
+use App\Models\Position;
 use Illuminate\Http\Request;
 use App\DataTables\UsersDataTable;
 use App\Http\Requests\UserRequest;
@@ -36,6 +37,7 @@ class UserController extends Controller
         return view('user.create',[
             'title'     => 'Create User',
             'dealers'   => Dealer::all(),
+            'positions' => Position::all()
         ]);
     }
 
@@ -62,6 +64,12 @@ class UserController extends Controller
             'password'  => bcrypt('12345678'),
             'sign'      => $imageName,
             'is_active' => $request->is_active
+        ]);
+
+        DB::table('model_has_position')->insert([
+            'user_id'       => $user->id,
+            'model_type'    => 'App\Model\User',
+            'position_id'   => $request->position
         ]);
 
         foreach ($request->dealer as $dealer) {

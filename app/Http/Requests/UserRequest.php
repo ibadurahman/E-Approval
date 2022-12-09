@@ -28,6 +28,7 @@ class UserRequest extends FormRequest
             'email'     => ['required','email','unique:users'],
             'phone'     => ['required','numeric'],
             'dealer'    => ['required'],
+            'position'  => ['required'],
             'is_active' => ['required'],
             'sign'      => ['image','mimes:png','max:5120']
         ];

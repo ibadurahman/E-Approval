@@ -22,3 +22,5 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource('/user',App\Http\Controllers\UserController::class);
 Route::resource('/dealer',App\Http\Controllers\DealerController::class);
+Route::resource('/position',App\Http\Controllers\PositionController::class);
+Route::resource('/dealerApproveRule',App\Http\Controllers\DealerApproveRuleController::class);
