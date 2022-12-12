@@ -19,8 +19,17 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
 Route::resource('/user',App\Http\Controllers\UserController::class);
 Route::resource('/dealer',App\Http\Controllers\DealerController::class);
 Route::resource('/position',App\Http\Controllers\PositionController::class);
 Route::resource('/dealerApproveRule',App\Http\Controllers\DealerApproveRuleController::class);
+Route::resource('/subItem',App\Http\Controllers\SubItemController::class);
+Route::resource('/item',App\Http\Controllers\ItemController::class);
+
+Route::post('/purchaseOrder/getSubItem',[App\Http\Controllers\PurchaseOrderController::class,'getSubItem']);
+Route::get('/purchaseOrder/{dealer}/create',[App\Http\Controllers\PurchaseOrderController::class,'create']);
+Route::resource('/purchaseOrder',App\Http\Controllers\PurchaseOrderController::class);

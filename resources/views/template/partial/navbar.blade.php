@@ -20,11 +20,22 @@
                         <li><a href="{{url('/user')}}" class="dropdown-item">User</a></li>
                         <li><a href="{{url('/dealer')}}" class="dropdown-item">Dealer</a></li>
                         <li><a href="{{url('/position')}}" class="dropdown-item">Position</a></li>
+                        <li><a href="{{url('/item')}}" class="dropdown-item">Purchase Item</a></li>
+                        <li><a href="{{url('/subItem')}}" class="dropdown-item">Purchase Sub Item</a></li>
                         <li><a href="{{url('/dealerApproveRule')}}" class="dropdown-item">Dealer Approve Rule</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link bg-success rounded-pill"><i class="fa-solid fa-plus"></i> Create PO</a>
+                    <div class="dropdown">
+                        <a href="{{url('/purchaseOrder/create')}}" class="nav-link bg-success rounded-pill" type="button" 
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-plus"></i> Create PO</a>
+                        <ul class="dropdown-menu">
+                            @foreach ($responsbl as $rspn)
+                                <li ><a class="dropdown-item" href="{{url('/purchaseOrder/'.$rspn->id.'/create')}}">{{$rspn->name}}</a></li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </li>
             </ul>
 

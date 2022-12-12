@@ -7,10 +7,10 @@
             <div class="col-lg-12">
                 <div class="card card-primary card-outline">
                     <div class="card-body">
-                        <form action="{{route('position.store')}}" method="POST">
+                        <form action="{{route('item.store')}}" method="POST">
                             @csrf
                             <div class="form-group">
-                                <label for="">Nama Item</label>
+                                <label for="">Nama</label>
                                 <input name="name" type="text" class="form-control @error('name') is-invalid @enderror" placeholder="Nama Item" value="{{old('name')}}">
                                 @error('name')
                                     <span class="text-danger help-block">{{$message}}</span>
