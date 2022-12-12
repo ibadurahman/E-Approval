@@ -128,6 +128,32 @@
                                     </tr>
                                 </thead>
                             </table>
+                            <hr class="border border-primary border-3 opacity-75">
+                            <h3 class="text-center">Approval</h3>
+                            <br>
+                            <table class="table no-border">
+                                <tr>
+                                    <td class="col-4 text-center" id="level-1"></td>
+                                    <td class="col-4 text-center" id="level-2"></td>
+                                    <td class="col-4 text-center" id="level-3"></td>
+                                </tr>
+                                <tr>
+                                    <th class="col-4 text-center" id="level-1-name"></th>
+                                    <th class="col-4 text-center" id="level-2-name"></th>
+                                    <th class="col-4 text-center" id="level-3-name"></th>
+                                </tr>
+                            </table>
+                            <hr class="border border-primary border-3 opacity-75">
+                            <br>
+                            <div class="row">
+                                <div class="form-group ">
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <button class="btn btn-primary col-6" type="submit">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -158,7 +184,7 @@
                             optionList += '<option value="'+element.id+'">'+element.name+'</option>'
                         })
                         comboboxSubItem.html(optionList)
-                    }
+                    },
                 })
             })
             $('#item-combobox').trigger('change')
@@ -188,8 +214,8 @@
             table.append(
                 '<tr>' +
                     '<td class="text-center">'+no+'</td>' +
-                    '<td class="text-center">'+itemCombobox+'</td>' + 
-                    '<td class="text-center">'+subItemCombobox+'</td>' + 
+                    '<td class="text-center" id="itemName-'+no+'"></td>' + 
+                    '<td class="text-center" id="subItemName-'+no+'"></td>' + 
                     '<td class="text-center">'+remarks+'</td>' + 
                     '<td class="text-center">'+qty+'</td>' + 
                     '<td class="text-center">'+price+'</td>' + 
@@ -197,6 +223,32 @@
                     '<td class="text-center"><a href="" onclick="event.preventDefault()" class="text-danger"><i class="fa-solid fa-trash"></i></a></td>' +
                 '</tr>'
             )
+
+            const itemNameColumn = $('#itemName-'+no)
+            const subItemNameColumn = $('#subItemName-'+no)
+            $.ajax({
+                url:'/purchaseOrder/getItemName',
+                type:'POST',
+                data:{
+                    item_id:itemCombobox,
+                    _token:'{{csrf_token()}}'
+                },
+                success:function(response){
+                    itemNameColumn.html(response.name) 
+                }
+            })
+
+            $.ajax({
+                url:'/purchaseOrder/getSubItemName',
+                type:'POST',
+                data:{
+                    subItem_id:subItemCombobox,
+                    _token:'{{csrf_token()}}'
+                },
+                success:function(response){
+                    subItemNameColumn.html(response.name)
+                }
+            })
 
             purchaseItem.push({
                 item_id       : itemCombobox,
@@ -206,8 +258,8 @@
                 price         : price,
                 totalPrice    : totalPrice
             }) 
-            no++
             sumTotalPrice()
+            no++
         }
         function sumTotalPrice()
         {
@@ -218,6 +270,43 @@
             });
 
             totalPriceTable.html(totalPrice)
+            reloadApprovalData(totalPrice)
+        }
+        function reloadApprovalData(value)
+        {
+            const level1Approval        = $('#level-1')
+            const level2Approval        = $('#level-2')
+            const level3Approval        = $('#level-3')
+            const level1ApprovalName    = $('#level-1-name')
+            const level2ApprovalName    = $('#level-2-name')
+            const level3ApprovalName    = $('#level-3-name')
+
+            $.ajax({
+                url:'/purchaseOrder/getApprovalData',
+                type:'POST',
+                data:{
+                    dealer_id:'{{$dealer->id}}',
+                    total_price:value,
+                    _token:'{{csrf_token()}}'
+                },
+                success:function(response){
+                    if(response.ApproveRule1)
+                    {
+                        level1Approval.html(response.dealerApproveRule1.position)
+                        level1ApprovalName.html(response.dealerApproveRule1.name)
+                    }
+                    if(response.ApproveRule2)
+                    {
+                        level2Approval.html(response.dealerApproveRule2.position)
+                        level2ApprovalName.html(response.dealerApproveRule2.name)
+                    }
+                    if(response.ApproveRule3)
+                    {
+                        level3Approval.html(response.dealerApproveRule3.position)
+                        level3ApprovalName.html(response.dealerApproveRule3.name)
+                    }
+                }
+            })
         }
     </script>
 @endpush

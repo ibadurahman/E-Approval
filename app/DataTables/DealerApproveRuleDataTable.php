@@ -31,19 +31,19 @@ class DealerApproveRuleDataTable extends DataTable
                         return $dealer->name;
                     })
                     ->addColumn('level_1_position_id',function(DealerApproveRule $approveRule){
-                        $user = Position::where('id',$approveRule->level_1_position_id)->first();
-                        if(!$user){return '';}
-                        return $user->name;
+                        $position = Position::where('id',$approveRule->level_1_position_id)->first();
+                        if(!$position){return '';}
+                        return $position->name;
                     })
                     ->addColumn('level_2_position_id',function(DealerApproveRule $approveRule){
-                        $user = Position::where('id',$approveRule->level_2_position_id)->first();
-                        if(!$user){return '';}
-                        return $user->name;
+                        $position = Position::where('id',$approveRule->level_2_position_id)->first();
+                        if(!$position){return '';}
+                        return $position->name;
                     })
                     ->addColumn('level_3_position_id',function(DealerApproveRule $approveRule){
-                        $user = Position::where('id',$approveRule->level_3_position_id)->first();
-                        if(!$user){return '';}
-                        return $user->name;
+                        $position = Position::where('id',$approveRule->level_3_position_id)->first();
+                        if(!$position){return '';}
+                        return $position->name;
                     })
                     ->addcolumn('action','dealerApproveRule.action')
                     ->setRowId('id');

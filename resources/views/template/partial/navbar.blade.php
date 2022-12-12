@@ -23,6 +23,7 @@
                         <li><a href="{{url('/item')}}" class="dropdown-item">Purchase Item</a></li>
                         <li><a href="{{url('/subItem')}}" class="dropdown-item">Purchase Sub Item</a></li>
                         <li><a href="{{url('/dealerApproveRule')}}" class="dropdown-item">Dealer Approve Rule</a></li>
+                        <li><a href="{{url('/dealerApproveOrganization')}}" class="dropdown-item">Dealer Approve Organization</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">

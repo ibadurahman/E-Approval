@@ -25,7 +25,7 @@
                                 <div class="input-group">
                                     <span class="input-group-text">Minimal price</span>
                                     <input name="level_1_min_nominal" type="text" class="form-control @error('level_1_min_nominal') is-invalid @enderror">
-                                    <select name="level_1_position_id" class="form-control @error('level_1_position_id') is-invalid @enderror" id="">
+                                    <select name="level_1_position_id" class="form-select @error('level_1_position_id') is-invalid @enderror" id="">
                                         @foreach ($positions as $position)
                                             <option value="{{$position->id}}">{{$position->name}}</option>
                                         @endforeach
@@ -40,7 +40,7 @@
                                 <div class="input-group">
                                     <span class="input-group-text">Minimal price</span>
                                     <input name="level_2_min_nominal" type="text" class="form-control @error('level_2_min_nominal') is-invalid @enderror">
-                                    <select name="level_2_position_id" class="form-control @error('level_2_position_id') is-invalid @enderror" id="">
+                                    <select name="level_2_position_id" class="form-select @error('level_2_position_id') is-invalid @enderror" id="">
                                         @foreach ($positions as $position)
                                             <option value="{{$position->id}}">{{$position->name}}</option>
                                         @endforeach
@@ -55,7 +55,7 @@
                                 <div class="input-group">
                                     <span class="input-group-text">Minimal price</span>
                                     <input name="level_3_min_nominal" type="text" class="form-control @error('level_3_min_nominal') is-invalid @enderror">
-                                    <select name="level_3_position_id" class="form-control @error('level_3_position_id') is-invalid @enderror" id="">
+                                    <select name="level_3_position_id" class="form-select @error('level_3_position_id') is-invalid @enderror" id="">
                                         @foreach ($positions as $position)
                                             <option value="{{$position->id}}">{{$position->name}}</option>
                                         @endforeach
