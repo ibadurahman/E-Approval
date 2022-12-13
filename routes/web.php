@@ -34,6 +34,7 @@ Route::post('/purchaseOrder/getSubItem',[App\Http\Controllers\PurchaseOrderContr
 Route::post('/purchaseOrder/getItemName',[App\Http\Controllers\PurchaseOrderController::class,'getItemName']);
 Route::post('/purchaseOrder/getSubItemName',[App\Http\Controllers\PurchaseOrderController::class,'getSubItemName']);
 Route::post('/purchaseOrder/getApprovalData',[App\Http\Controllers\PurchaseOrderController::class,'getApprovalData']);
+Route::post('/purchaseOrder/uploadFiles',[App\Http\Controllers\PurchaseOrderController::class,'uploadFiles']);
 Route::get('/purchaseOrder/{dealer}/create',[App\Http\Controllers\PurchaseOrderController::class,'create']);
 Route::resource('/purchaseOrder',App\Http\Controllers\PurchaseOrderController::class);
 

@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/fontawesome/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/datatables/buttons.dataTables.min.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
     <link rel="stylesheet" href="{{ asset('css/datatables/datatables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/adminlte/adminlte.min.css') }}">
+
 </head>

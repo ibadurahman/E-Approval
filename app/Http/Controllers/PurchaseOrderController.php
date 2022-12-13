@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use App\Models\Dealer;
-use App\Models\DealerApproveRule;
 use App\Models\SubItem;
 use Illuminate\Http\Request;
 use App\Models\PurchaseOrder;
 use App\Models\UserHasDealer;
+use App\Models\PoCreateHasFile;
+use App\Models\DealerApproveRule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -48,6 +49,7 @@ class PurchaseOrderController extends Controller
     public function store(Request $request)
     {
         //
+        dd(json_decode($request->items));
     }
 
     /**
@@ -172,5 +174,26 @@ class PurchaseOrderController extends Controller
         }
 
         return response()->json($dealerApproveRule);
+    }
+
+    public function uploadFiles(Request $request)
+    {
+        $files = $request->file('file');
+
+        $fileInfo = $files->getClientOriginalName();
+        $fileName = pathinfo($fileInfo,PATHINFO_FILENAME);
+        $extension = pathinfo($fileInfo, PATHINFO_EXTENSION);
+        $file_name = $fileName.'-'.time().'.'.$extension;
+        $files->move(public_path('uploads'),$file_name);
+
+        DB::table('po_create_has_files')->insert([
+            'po_num_id'     => $request->po_num,
+            'file_name'     => $file_name
+        ]);
+
+        return response()->json([
+            'message'   => 'Upload Complete',
+            'request'   => $request->po_num
+        ]);
     }
 }
