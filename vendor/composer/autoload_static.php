@@ -682,6 +682,7 @@ class ComposerStaticInite3be0deafdc0a8828fcddd9739282596
         'App\\Models\\Item' => __DIR__ . '/../..' . '/app/Models/Item.php',
         'App\\Models\\Position' => __DIR__ . '/../..' . '/app/Models/Position.php',
         'App\\Models\\PurchaseOrder' => __DIR__ . '/../..' . '/app/Models/PurchaseOrder.php',
+        'App\\Models\\PurchaseOrderItem' => __DIR__ . '/../..' . '/app/Models/PurchaseOrderItem.php',
         'App\\Models\\SubItem' => __DIR__ . '/../..' . '/app/Models/SubItem.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Models\\UserHasDealer' => __DIR__ . '/../..' . '/app/Models/UserHasDealer.php',

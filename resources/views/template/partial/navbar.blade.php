@@ -38,6 +38,9 @@
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route('purchaseOrder.index')}}" class="nav-link">Check PO</a>
+                </li>
             </ul>
 
         </div>

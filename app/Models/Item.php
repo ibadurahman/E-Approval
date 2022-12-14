@@ -12,4 +12,8 @@ class Item extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function purchaseOrderItems(){
+        return $this->hasMany(PurchaseOrderItem::class);
+    }
 }

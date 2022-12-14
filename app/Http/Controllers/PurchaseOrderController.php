@@ -3,15 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\User;
 use App\Models\Dealer;
 use App\Models\SubItem;
+use App\Models\Position;
 use Illuminate\Http\Request;
 use App\Models\PurchaseOrder;
 use App\Models\UserHasDealer;
 use App\Models\PoCreateHasFile;
 use App\Models\DealerApproveRule;
+use App\Models\PurchaseOrderItem;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\DataTables\PurchaseOrderDataTable;
 
 class PurchaseOrderController extends Controller
 {
@@ -20,9 +24,11 @@ class PurchaseOrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(PurchaseOrderDataTable $dataTable)
     {
-        
+        return $dataTable->render('purchaseOrder.index',[
+            'title' => 'Purchase Order'
+        ]);
     }
 
     /**
@@ -49,7 +55,30 @@ class PurchaseOrderController extends Controller
     public function store(Request $request)
     {
         //
-        dd(json_decode($request->items));
+        // dd(json_decode($request->approval[0])->user_id);
+        $purchaseOrder = PurchaseOrder::create([
+            'po_num'                => $request->po_num,
+            'dealer_id'             => $request->dealer_id,
+            'created_by'            => $request->created_by,
+            'release_date'          => $request->release_date,
+            'level_1_approved_by'   => ($request->approval[0] == null)?null:json_decode($request->approval[0])->user_id,
+            'level_2_approved_by'   => ($request->approval[1] == null)?null:json_decode($request->approval[1])->user_id,
+            'level_3_approved_by'   => ($request->approval[2] == null)?null:json_decode($request->approval[2])->user_id,
+            'status'                => 'review'
+        ]);
+
+        foreach ($request->items as $item) {
+            PurchaseOrderItem::create([
+                'purchase_order_id' => $purchaseOrder->id,
+                'item_id'           => json_decode($item)->item_id,
+                'sub_item_id'       => json_decode($item)->sub_item_id,
+                'remarks'           => json_decode($item)->remarks,
+                'qty'               => json_decode($item)->qty,
+                'price'             => json_decode($item)->price
+            ]);
+        }
+
+        return redirect()->route('home')->with('success','Data Purchase Order Berhasil Ditambahkan');
     }
 
     /**
@@ -60,7 +89,54 @@ class PurchaseOrderController extends Controller
      */
     public function show(PurchaseOrder $purchaseOrder)
     {
-        //
+        $approvals = [
+            'level_1_position'  => null,
+            'level_1_name'      => null,
+            'level_2_position'  => null,
+            'level_2_name'      => null,
+            'level_3_position'  => null,
+            'level_3_name'      => null,
+        ];
+        if(!is_null($purchaseOrder->level_1_approved_by)){
+            $approvals['level_1_position']  = call_user_func(function() use($purchaseOrder){
+                $positionId = DB::table('model_has_position')->where('user_id',$purchaseOrder->level_1_approved_by)->first();
+                return Position::where('id',$positionId->position_id)->first()->name;
+            });
+            $approvals['level_1_name']      = call_user_func(function() use($purchaseOrder){
+                $user = User::where('id',$purchaseOrder->level_1_approved_by)->first();
+                return $user->name;
+            });;
+        }
+        if(!is_null($purchaseOrder->level_2_approved_by)){
+            $approvals['level_2_position']  = call_user_func(function() use($purchaseOrder){
+                $positionId = DB::table('model_has_position')->where('user_id',$purchaseOrder->level_2_approved_by)->first();
+                return Position::where('id',$positionId->position_id)->first()->name;
+            });
+            $approvals['level_2_name']      = call_user_func(function() use($purchaseOrder){
+                $user = User::where('id',$purchaseOrder->level_2_approved_by)->first();
+                return $user->name;
+            });;
+        }
+        if(!is_null($purchaseOrder->level_3_approved_by)){
+            $approvals['level_3_position']  = call_user_func(function() use($purchaseOrder){
+                $positionId = DB::table('model_has_position')->where('user_id',$purchaseOrder->level_3_approved_by)->first();
+                return Position::where('id',$positionId->position_id)->first()->name;
+            });
+            $approvals['level_3_name']      = call_user_func(function() use($purchaseOrder){
+                $user = User::where('id',$purchaseOrder->level_3_approved_by)->first();
+                return $user->name;
+            });;
+        }
+
+        return view('purchaseOrder.show',[
+            'title'         => $purchaseOrder->po_num,
+            'purchaseOrder' => $purchaseOrder,
+            'dealer'        => Dealer::where('id',$purchaseOrder->dealer_id)->first(),
+            'created_by'    => User::where('id',$purchaseOrder->created_by)->first()->name,
+            'items'         => PurchaseOrderItem::where('purchase_order_id',$purchaseOrder->id)->get(),
+            'attachments'   => DB::table('po_create_has_files')->where('po_num_id',$purchaseOrder->po_num)->get(),
+            'approval'      => $approvals,
+        ]);
     }
 
     /**
@@ -71,7 +147,7 @@ class PurchaseOrderController extends Controller
      */
     public function edit(PurchaseOrder $purchaseOrder)
     {
-        //
+        
     }
 
     /**
@@ -123,7 +199,7 @@ class PurchaseOrderController extends Controller
                                         ->join('dealer_approve_organizations','dealer_approve_rules.dealer_id','=','dealer_approve_organizations.dealer_id')
                                         ->join('positions','dealer_approve_rules.level_1_position_id','=','positions.id')
                                         ->join('users','dealer_approve_organizations.level_1_user_id','=','users.id')
-                                        ->select('dealer_approve_rules.level_1_min_nominal','positions.name as position','users.name as name')
+                                        ->select('dealer_approve_rules.level_1_min_nominal','positions.name as position','users.name as name','users.id as user_id')
                                         ->first();
         if(!$dealerApproveRuleLevel1){
             $dealerApproveRule['ApproveRule1'] = false;
@@ -141,7 +217,7 @@ class PurchaseOrderController extends Controller
                                 ->join('dealer_approve_organizations','dealer_approve_rules.dealer_id','=','dealer_approve_organizations.dealer_id')
                                 ->join('positions','dealer_approve_rules.level_2_position_id','=','positions.id')
                                 ->join('users','dealer_approve_organizations.level_2_user_id','=','users.id')
-                                ->select('dealer_approve_rules.level_2_min_nominal','positions.name as position','users.name as name')
+                                ->select('dealer_approve_rules.level_2_min_nominal','positions.name as position','users.name as name','users.id as user_id')
                                 ->first();
         if(!$dealerApproveRuleLevel2){
             $dealerApproveRule['ApproveRule2'] = false;
@@ -159,7 +235,7 @@ class PurchaseOrderController extends Controller
                                 ->join('dealer_approve_organizations','dealer_approve_rules.dealer_id','=','dealer_approve_organizations.dealer_id')
                                 ->join('positions','dealer_approve_rules.level_3_position_id','=','positions.id')
                                 ->join('users','dealer_approve_organizations.level_3_user_id','=','users.id')
-                                ->select('dealer_approve_rules.level_3_min_nominal','positions.name as position','users.name as name')
+                                ->select('dealer_approve_rules.level_3_min_nominal','positions.name as position','users.name as name','users.id as user_id')
                                 ->first();
         if(!$dealerApproveRuleLevel3){
             $dealerApproveRule['ApproveRule3'] = false;
@@ -182,6 +258,7 @@ class PurchaseOrderController extends Controller
 
         $fileInfo = $files->getClientOriginalName();
         $fileName = pathinfo($fileInfo,PATHINFO_FILENAME);
+        $fileName = str_replace(' ','_',$fileName);
         $extension = pathinfo($fileInfo, PATHINFO_EXTENSION);
         $file_name = $fileName.'-'.time().'.'.$extension;
         $files->move(public_path('uploads'),$file_name);
@@ -195,5 +272,10 @@ class PurchaseOrderController extends Controller
             'message'   => 'Upload Complete',
             'request'   => $request->po_num
         ]);
+    }
+
+    public function downloadFile(PurchaseOrder $purchaseOrder, $fileName){
+        $file = public_path().'\uploads\\'.$fileName;
+        return response()->download($file);
     }
 }

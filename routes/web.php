@@ -36,6 +36,7 @@ Route::post('/purchaseOrder/getSubItemName',[App\Http\Controllers\PurchaseOrderC
 Route::post('/purchaseOrder/getApprovalData',[App\Http\Controllers\PurchaseOrderController::class,'getApprovalData']);
 Route::post('/purchaseOrder/uploadFiles',[App\Http\Controllers\PurchaseOrderController::class,'uploadFiles']);
 Route::get('/purchaseOrder/{dealer}/create',[App\Http\Controllers\PurchaseOrderController::class,'create']);
+Route::get('/purchaseOrder/{purchaseOrder}/downloadFile/{fileName}',[App\Http\Controllers\PurchaseOrderController::class,'downloadFile']);
 Route::resource('/purchaseOrder',App\Http\Controllers\PurchaseOrderController::class);
 
 Route::post('/dealerApproveOrganization/getPersonCharge',[App\Http\Controllers\DealerApproveOrganizationController::class,'getPersonCharge']);

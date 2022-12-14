@@ -100,9 +100,22 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        return view('user.edit',[
+            'title'             => 'Edit User',
+            'user'              => $user,
+            'user_has_dealer'   => call_user_func(function() use ($user){
+                $modelDealer = DB::table('model_has_dealer')->where('user_id',$user->id)->get();
+                $modelHasDealers = [];
+                foreach ($modelDealer as $dealer) {
+                    $modelHasDealers[] = Dealer::where('id',$dealer->dealer_id)->first();
+                }
+                return $modelHasDealers;
+            }),
+            'dealers'           => Dealer::all(),
+            'positions'         => Position::all()
+        ]);
     }
 
     /**

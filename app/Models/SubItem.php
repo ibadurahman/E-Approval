@@ -13,4 +13,8 @@ class SubItem extends Model
         'item_id',
         'name'
     ];
+
+    public function purchaseOrderItems(){
+        return $this->hasMany(PurchaseOrderItem::class);
+    }
 }

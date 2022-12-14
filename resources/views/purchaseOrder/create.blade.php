@@ -7,7 +7,8 @@
                 <div class="col-lg-12">
                     <div class="card card-primary card-outline">
                         <div class="card-body">
-                            <form action="{{ route('purchaseOrder.store') }}" method="POST" enctype="multipart/form-data" id="purchase-order-form">
+                            <form action="{{ route('purchaseOrder.store') }}" method="POST" enctype="multipart/form-data"
+                                id="purchase-order-form">
                                 @csrf
                                 <h3 class="text-center">Dealer Info</h3>
                                 <br>
@@ -16,6 +17,7 @@
                                         <ul class="list-inline">
                                             <li class="list-inline-item"><b>Dealer : </b></li>
                                             <li class="list-inline-item">{{ $dealer->name }}</li>
+                                            <input name="dealer_id" type="text" hidden value="{{ $dealer->id }}">
                                         </ul>
                                         <ul class="list-inline">
                                             <li class="list-inline-item"><b>Alamat : </b></li>
@@ -24,10 +26,12 @@
                                         <ul class="list-inline">
                                             <li class="list-inline-item"><b>No. PO : </b></li>
                                             <li class="list-inline-item">{{ $poNumber }}</li>
+                                            <input name="po_num" type="text" hidden value="{{ $poNumber }}">
                                         </ul>
                                         <ul class="list-inline">
                                             <li class="list-inline-item"><b>Diajukan Oleh : </b></li>
                                             <li class="list-inline-item">{{ Auth::user()->name }}</li>
+                                            <input name="created_by" type="text" hidden value="{{ Auth::user()->id }}">
                                         </ul>
                                     </div>
                                     <div class="col-6">
@@ -42,6 +46,7 @@
                                         <ul class="list-inline">
                                             <li class="list-inline-item"><b>Tanggal PO: </b></li>
                                             <li class="list-inline-item">{{ Date('Y-m-d') }}</li>
+                                            <input name="release_date" type="text" value="{{ Date('Y-m-d H:i:s') }}" hidden>
                                         </ul>
                                     </div>
                                 </div>
@@ -207,32 +212,36 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <hr class="border border-primary border-3 opacity-75">
-                                    <h3 class="text-center">Approval</h3>
-                                    <br>
-                                    <table class="table no-border">
-                                        <tr>
-                                            <td class="col-4 text-center" id="level-1"></td>
-                                            <td class="col-4 text-center" id="level-2"></td>
-                                            <td class="col-4 text-center" id="level-3"></td>
-                                        </tr>
-                                        <tr>
-                                            <th class="col-4 text-center" id="level-1-name"></th>
-                                            <th class="col-4 text-center" id="level-2-name"></th>
-                                            <th class="col-4 text-center" id="level-3-name"></th>
-                                        </tr>
-                                    </table>
-                                    <hr class="border border-primary border-3 opacity-75">
-                                    <br>
-                                    <div class="row">
-                                        <div class="form-group ">
-                                            <div class="row">
-                                                <div class="col-12 text-center">
-                                                    <button class="btn btn-primary col-6" id="submit-btn">Submit</button>
-                                                </div>
+                                </div>
+                                <hr class="border border-primary border-3 opacity-75">
+                                <h3 class="text-center">Approval</h3>
+                                <br>
+                                <table class="table no-border">
+                                    <tr>
+                                        <td class="col-4 text-center" id="level-1"></td>
+                                        <td class="col-4 text-center" id="level-2"></td>
+                                        <td class="col-4 text-center" id="level-3"></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="col-4 text-center" id="level-1-name"></th>
+                                        <input type="text" name="approval[]" hidden value="" id="approval-lv-1">
+                                        <th class="col-4 text-center" id="level-2-name"></th>
+                                        <input type="text" name="approval[]" hidden value="" id="approval-lv-2">
+                                        <th class="col-4 text-center" id="level-3-name"></th>
+                                        <input type="text" name="approval[]" hidden value="" id="approval-lv-3">
+                                    </tr>
+                                </table>
+                                <hr class="border border-primary border-3 opacity-75">
+                                <br>
+                                <div class="row">
+                                    <div class="form-group ">
+                                        <div class="row">
+                                            <div class="col-12 text-center">
+                                                <button class="btn btn-primary col-6" id="submit-btn">Submit</button>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -273,7 +282,7 @@
         })
 
         myDropzone.on("sending", function(file, xhr, formData) {
-            formData.append('po_num','{{$poNumber}}')
+            formData.append('po_num', '{{ $poNumber }}')
             document.querySelector("#total-progress").style.opacity = "1"
         })
 
@@ -283,8 +292,7 @@
             document.querySelector("#total-progress").style.opacity = "0"
         })
 
-        myDropzone.on("completemultiple", function(progress) {
-        })
+        myDropzone.on("completemultiple", function(progress) {})
 
         document.querySelector("#actions .cancel").onclick = function() {
             myDropzone.removeAllFiles(true)
@@ -404,6 +412,7 @@
             const level1ApprovalName = $('#level-1-name')
             const level2ApprovalName = $('#level-2-name')
             const level3ApprovalName = $('#level-3-name')
+            const poForm = $('#purchase-order-form')
 
             $.ajax({
                 url: '/purchaseOrder/getApprovalData',
@@ -417,14 +426,17 @@
                     if (response.ApproveRule1) {
                         level1Approval.html(response.dealerApproveRule1.position)
                         level1ApprovalName.html(response.dealerApproveRule1.name)
+                        $('#approval-lv-1').val(JSON.stringify(response.dealerApproveRule1))
                     }
                     if (response.ApproveRule2) {
                         level2Approval.html(response.dealerApproveRule2.position)
                         level2ApprovalName.html(response.dealerApproveRule2.name)
+                        $('#approval-lv-2').val(JSON.stringify(response.dealerApproveRule2))
                     }
                     if (response.ApproveRule3) {
                         level3Approval.html(response.dealerApproveRule3.position)
                         level3ApprovalName.html(response.dealerApproveRule3.name)
+                        $('#approval-lv-2').val(JSON.stringify(response.dealerApproveRule2))
                     }
                 }
             })
@@ -435,9 +447,12 @@
             myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED))
         })
 
-        $('#purchase-order-form').on("submit",function(event){
+        $('#purchase-order-form').on("submit", function(event) {
             purchaseItem.forEach(item => {
-                var input = $("<input>").attr({"type":"hidden","name":"items[]"}).val(JSON.stringify(item))
+                var input = $("<input>").attr({
+                    "type": "hidden",
+                    "name": "items[]"
+                }).val(JSON.stringify(item))
                 $('#purchase-order-form').append(input)
             })
             return true

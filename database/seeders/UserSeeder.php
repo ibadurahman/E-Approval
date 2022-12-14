@@ -37,6 +37,25 @@ class UserSeeder extends Seeder
         ]);
 
         $user = User::create([
+            'name'      => 'Service Manager Makassar',
+            'email'     => 'sm.mk@mail.com',
+            'phone'     => '085772077222',
+            'password'  => bcrypt('12345678'),
+            'sign'      => '',
+            'is_active' => true
+        ]);
+        DB::table('model_has_position')->insert([
+            'user_id'       => $user->id,
+            'model_type'    => 'App\Models\User',
+            'position_id'   => 5
+        ]);
+        DB::table('model_has_dealer')->insert([
+            'user_id'       => $user->id,
+            'model_type'    => 'App\Models\User',
+            'dealer_id'     => 1
+        ]);
+
+        $user = User::create([
             'name'      => 'aftersales Manager Makassar',
             'email'     => 'assm.mk@mail.com',
             'phone'     => '085772077222',
@@ -47,7 +66,7 @@ class UserSeeder extends Seeder
         DB::table('model_has_position')->insert([
             'user_id'       => $user->id,
             'model_type'    => 'App\Models\User',
-            'position_id'   => 5
+            'position_id'   => 4
         ]);
         DB::table('model_has_dealer')->insert([
             'user_id'       => $user->id,
@@ -94,6 +113,25 @@ class UserSeeder extends Seeder
         ]);
 
         $user = User::create([
+            'name'      => 'Service Manager Manado',
+            'email'     => 'sm.mnd@mail.com',
+            'phone'     => '085772077222',
+            'password'  => bcrypt('12345678'),
+            'sign'      => '',
+            'is_active' => true
+        ]);
+        DB::table('model_has_position')->insert([
+            'user_id'       => $user->id,
+            'model_type'    => 'App\Models\User',
+            'position_id'   => 5
+        ]);
+        DB::table('model_has_dealer')->insert([
+            'user_id'       => $user->id,
+            'model_type'    => 'App\Models\User',
+            'dealer_id'     => 2
+        ]);
+
+        $user = User::create([
             'name'      => 'aftersales Manager Manado',
             'email'     => 'assm.mnd@mail.com',
             'phone'     => '085772077222',
@@ -104,7 +142,7 @@ class UserSeeder extends Seeder
         DB::table('model_has_position')->insert([
             'user_id'       => $user->id,
             'model_type'    => 'App\Models\User',
-            'position_id'   => 5
+            'position_id'   => 4
         ]);
         DB::table('model_has_dealer')->insert([
             'user_id'       => $user->id,
