@@ -41,8 +41,7 @@
                                     @foreach ($dealers as $dealer)
                                         <div class="form-check">
                                             <input name="dealer[]" class="form-check-input" type="checkbox" value="{{ $dealer->id }}">
-                                            <label class="form-check-label">({{ $dealer->code }}) {{ $dealer->name }}
-                                            </label>
+                                            <label class="form-check-label">({{ $dealer->code }}) {{ $dealer->name }}</label>
                                         </div>
                                     @endforeach
                                     @error('dealer')
