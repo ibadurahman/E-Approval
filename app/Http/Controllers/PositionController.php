@@ -77,6 +77,10 @@ class PositionController extends Controller
     public function edit(Position $position)
     {
         //
+        return view('position.edit',[
+            'title'     => 'Edit Position',
+            'position'  => $position
+        ]);
     }
 
     /**
@@ -88,7 +92,19 @@ class PositionController extends Controller
      */
     public function update(Request $request, Position $position)
     {
-        //
+        $validation = $request->validate([
+            'name'  => ['required','min:3']
+        ]);
+
+        if (!$validation) {
+            return redirect()->route('position.index')->with('error','Data Gagal Diupdate');
+        }
+
+        $position->update([
+            'name'  => $request->name
+        ]);
+
+        return redirect()->route('position.index')->with('success','Data Berhasil Diupdate');
     }
 
     /**

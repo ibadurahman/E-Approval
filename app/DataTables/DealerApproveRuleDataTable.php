@@ -46,7 +46,7 @@ class DealerApproveRuleDataTable extends DataTable
                         return $position->name;
                     })
                     ->addcolumn('action','dealerApproveRule.action')
-                    ->setRowId('id');
+                    ->setRowId('dealer_id');
     }
 
     /**

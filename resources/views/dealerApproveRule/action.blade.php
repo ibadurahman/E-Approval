@@ -1,1 +1,1 @@
-<a href=""><i class="fas fa-edit"></i></a>
+<a href="{{url('dealerApproveRule/'.$model->dealer_id.'/edit')}}"><i class="fas fa-edit"></i></a>

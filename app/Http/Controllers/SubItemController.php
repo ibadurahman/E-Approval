@@ -75,6 +75,11 @@ class SubItemController extends Controller
     public function edit(SubItem $subItem)
     {
         //
+        return view('subItem.edit',[
+            'title'     => 'Edit Sub Item',
+            'subItem'   => $subItem,
+            'items'     => Item::all(),
+        ]);
     }
 
     /**
@@ -86,7 +91,17 @@ class SubItemController extends Controller
      */
     public function update(Request $request, SubItem $subItem)
     {
-        //
+        $request->validate([
+            'item_id'   => ['required'],
+            'name'      => ['required']
+        ]);
+
+        $subItem->update([
+            'item_id'   => $request->item_id,
+            'name'      => $request->name
+        ]);
+
+        return redirect()->route('subItem.index')->with('success','Data Sub Item Berhasil Diupdate');
     }
 
     /**

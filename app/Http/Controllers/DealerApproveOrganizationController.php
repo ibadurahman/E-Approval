@@ -83,9 +83,13 @@ class DealerApproveOrganizationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(DealerApproveOrganization $dealerApproveOrg)
     {
-        //
+        return view('dealerApproveOrganization.edit',[
+            'title'             => 'Edit Dealer Approve Organization',
+            'dealers'           => Dealer::all(),
+            'dealerApproveOrg'  => $dealerApproveOrg
+        ]);
     }
 
     /**
@@ -95,9 +99,19 @@ class DealerApproveOrganizationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DealerApproveOrganizationRequest $request, DealerApproveOrganization $dealerApproveOrg)
     {
-        //
+        $dealerApproveOrg->update([
+            'dealer_id'             => $request->dealer_id,
+            'level_1_position_id'   => $request->level_1_approval,
+            'level_1_user_id'       => $request->level_1_user_id,
+            'level_2_position_id'   => $request->level_2_approval,
+            'level_2_user_id'       => $request->level_2_user_id,
+            'level_3_position_id'   => $request->level_3_approval,
+            'level_3_user_id'       => $request->level_3_user_id,
+        ]);
+
+        return redirect()->route('dealerApproveOrganization.index')->with('success','Data Dealer Approve Organization Berhasil Diupdate');
     }
 
     /**

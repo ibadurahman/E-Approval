@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserRequest extends FormRequest
@@ -23,9 +25,14 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
+        $rule_user_unique = Rule::unique('users','email');
+        if($this->method() != 'POST'){
+            $rule_user_unique->ignore(Request::segment(2));
+        }
+
         return [
             'name'      => ['required','min:3'],
-            'email'     => ['required','email','unique:users'],
+            'email'     => ['required','email',$rule_user_unique],
             'phone'     => ['required','numeric'],
             'dealer'    => ['required'],
             'position'  => ['required'],

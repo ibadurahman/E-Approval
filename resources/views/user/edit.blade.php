@@ -7,8 +7,9 @@
                 <div class="col-lg-12">
                     <div class="card card-primary card-outline">
                         <div class="card-body">
-                            <form action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('user.update',$user) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
+                                @method('PUT')
                                 <div class="form-group">
                                     <label for="">Nama</label>
                                     <input name="name" type="text"
@@ -40,7 +41,11 @@
                                     <label for="">Tanggung Jawab Dealer</label>
                                     @foreach ($dealers as $dealer)
                                         <div class="form-check">
-                                            <input name="dealer[]" class="form-check-input" type="checkbox" value="{{ $dealer->id }}">
+                                            <input name="dealer[]" class="form-check-input" type="checkbox" value="{{ $dealer->id }}" @foreach ($user_has_dealer as $userHasDealer)
+                                                @if ($dealer->id == $userHasDealer->dealer_id)
+                                                    checked
+                                                @endif
+                                            @endforeach>
                                             <label class="form-check-label">({{ $dealer->code }}) {{ $dealer->name }}</label>
                                         </div>
                                     @endforeach
@@ -53,7 +58,9 @@
                                     @foreach ($positions as $position)
                                         <div class="form-check">
                                             <input name="position" class="form-check-input" type="radio"
-                                                value="{{ $position->id }}">
+                                                value="{{ $position->id }}" @if ($position->id == $user_has_position->position_id)
+                                                    checked
+                                                @endif>
                                             <label class="form-check-label">
                                                 {{ $position->name }}
                                             </label>
@@ -67,6 +74,8 @@
                                     <div class="mb-3">
                                         <label class="form-label">Tanda Tangan</label>
                                         <input class="form-control @error('sign') is-invalid @enderror" type="file" name="sign">
+                                        <br>
+                                        <img src="{{asset('images\sign\\'.$user->sign)}}" alt="" class="img-thumbnail" width="30%">
                                     </div>
                                     @error('sign')
                                         <span class="text-danger help-block">{{ $message }}</span>
@@ -75,14 +84,17 @@
                                 <div class="form-group">
                                     <label for="">Status Akun</label>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="is_active" value="1"
-                                            checked>
+                                        <input class="form-check-input" type="radio" name="is_active" value="1" @if ($user->is_active == 1)
+                                            checked
+                                        @endif>
                                         <label class="form-check-label">
                                             Aktif
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="is_active" value="0">
+                                        <input class="form-check-input" type="radio" name="is_active" value="0" @if ($user->is_active == 0)
+                                        checked
+                                    @endif>
                                         <label class="form-check-label">
                                             Tidak Aktif
                                         </label>

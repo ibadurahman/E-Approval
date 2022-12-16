@@ -78,7 +78,12 @@ class DealerApproveRuleController extends Controller
      */
     public function edit(DealerApproveRule $dealerApproveRule)
     {
-        //
+        return view('dealerApproveRule.edit',[
+            'title'             => 'Edit Dealer Approve Rule',
+            'dealerApproveRule' => $dealerApproveRule,
+            'dealers'           => Dealer::all(),
+            'positions'         => Position::all(),
+        ]);
     }
 
     /**
@@ -88,9 +93,18 @@ class DealerApproveRuleController extends Controller
      * @param  \App\Models\DealerApproveRule  $dealerApproveRule
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DealerApproveRule $dealerApproveRule)
+    public function update(DealerApproveRuleRequest $request, DealerApproveRule $dealerApproveRule)
     {
-        //
+        $dealerApproveRule->update([
+            'dealer_id'             => $request->dealer_id,
+            'level_1_min_nominal'   => $request->level_1_min_nominal,
+            'level_1_position_id'   => $request->level_1_position_id,
+            'level_2_min_nominal'   => $request->level_2_min_nominal,
+            'level_2_position_id'   => $request->level_2_position_id,
+            'level_3_min_nominal'   => $request->level_3_min_nominal,
+            'level_3_position_id'   => $request->level_3_position_id
+        ]);
+        return redirect()->route('dealerApproveRule.index')->with('success','Data Dealer Approve Rule Berhasil Diupdate');
     }
 
     /**

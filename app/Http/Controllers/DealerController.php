@@ -73,7 +73,10 @@ class DealerController extends Controller
      */
     public function edit(Dealer $dealer)
     {
-        //
+        return view('dealer.edit',[
+            'title'     => 'Edit Dealer',
+            'dealer'    => $dealer,
+        ]);
     }
 
     /**
@@ -83,9 +86,17 @@ class DealerController extends Controller
      * @param  \App\Models\Dealer  $dealer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Dealer $dealer)
+    public function update(DealerRequest $request, Dealer $dealer)
     {
-        //
+        $dealer->update([
+            'code'      => $request->code,
+            'name'      => $request->name,
+            'address'   => $request->address,
+            'email'     => $request->email,
+            'phone'     => $request->phone
+        ]);
+
+        return redirect()->route('dealer.index')->with('success','Data Berhasil Diupdate');
     }
 
     /**

@@ -51,7 +51,7 @@ class UserController extends Controller
     {
         if(!$request->sign)
         {
-            $imageName = '';
+            $imageName = null;
         }else{
             $imageName = time().'_'.$request->name.'.'.$request->sign->extension();
             $request->sign->move(public_path('images/sign'),$imageName);
@@ -107,11 +107,11 @@ class UserController extends Controller
             'user'              => $user,
             'user_has_dealer'   => call_user_func(function() use ($user){
                 $modelDealer = DB::table('model_has_dealer')->where('user_id',$user->id)->get();
-                $modelHasDealers = [];
-                foreach ($modelDealer as $dealer) {
-                    $modelHasDealers[] = Dealer::where('id',$dealer->dealer_id)->first();
-                }
-                return $modelHasDealers;
+                return $modelDealer;
+            }),
+            'user_has_position' => call_user_func(function() use ($user){
+                $position = DB::table('model_has_position')->where('user_id',$user->id)->first();
+                return $position;
             }),
             'dealers'           => Dealer::all(),
             'positions'         => Position::all()
@@ -125,9 +125,56 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, User $user)
     {
         //
+        if (!is_null($request->sign)) {
+            if(!is_null($user->sign))
+            {
+                if(file_exists(public_path('images\sign\\'.$user->sign))){
+                    unlink(public_path('images\sign\\'.$user->sign));
+                }
+            }
+            $imageName = time().'_'.$request->name.'.'.$request->sign->extension();
+            $request->sign->move(public_path('images\sign\\'),$imageName);
+        }else{
+            $imageName = $user->sign;
+        }
+
+        $modelHasDealer = DB::table('model_has_dealer')->where('user_id',$user->id);
+        $modelHasDealerQuery = $modelHasDealer->get();
+        if(count($modelHasDealerQuery)!=0){
+                $modelHasDealer->delete();
+        }
+        foreach ($request->dealer as $dlr) {
+            DB::table('model_has_dealer')->insert([
+                'user_id'       => $user->id,
+                'model_type'    => 'App\Models\User',
+                'dealer_id'     => $dlr
+            ]);
+        }
+
+        $modelHasPosition = DB::table('model_has_position')->where('user_id',$user->id);
+        if(!is_null($modelHasPosition))
+        {
+            $modelHasPosition->delete();
+            DB::table('model_has_position')->insert([
+                'user_id'       => $user->id,
+                'model_type'    => 'App\Models\User',
+                'position_id'   => $request->position
+            ]);
+        }
+
+        $user->update([
+            'name'  => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'sign'  => $imageName,
+            'is_active' => $request->is_active,
+        ]);
+
+        return redirect()->route('user.index')->with('success','Data Berhasil Diupdate');
+        
     }
 
     /**

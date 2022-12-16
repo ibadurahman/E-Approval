@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class DealerApproveRule extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'dealer_id';
 
     protected $fillable = [
         'dealer_id',

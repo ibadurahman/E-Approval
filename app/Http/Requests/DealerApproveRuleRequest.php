@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DealerApproveRuleRequest extends FormRequest
@@ -23,8 +25,13 @@ class DealerApproveRuleRequest extends FormRequest
      */
     public function rules()
     {
+        $rule_dealer_unique = Rule::unique('dealer_approve_rules','dealer_id');
+        if($this->method() != 'POST'){
+            $rule_dealer_unique->ignore(Request::segment(2),'dealer_id');
+        }
+
         return [
-            'dealer_id'             => ['required', 'unique:dealer_approve_rules'],
+            'dealer_id'             => ['required', $rule_dealer_unique],
             'level_1_min_nominal'   => ['required','numeric'],
             'level_1_position_id'   => ['required'],
             'level_2_min_nominal'   => ['required','numeric'],

@@ -1,1 +1,1 @@
-<a href="{{url('user/1/edit')}}"><i class="fas fa-edit"></i></a>
+<a href="{{url('user/'.$model->id.'/edit')}}"><i class="fas fa-edit"></i></a>

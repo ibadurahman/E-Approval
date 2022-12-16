@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('dealer_approve_rules', function (Blueprint $table) {
-            $table->unsignedBigInteger('dealer_id');
+            $table->unsignedBigInteger('dealer_id')->primary();
             $table->bigInteger('level_1_min_nominal');
             $table->unsignedBigInteger('level_1_position_id');
             $table->bigInteger('level_2_min_nominal');

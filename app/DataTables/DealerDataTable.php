@@ -53,7 +53,7 @@ class DealerDataTable extends DataTable
                     ->selectStyleSingle()
                     ->parameters([
                         'dom'     => 'Bfrtip',
-                        'buttons' => ['create','excel','pdf','reload'],
+                        'buttons' => ['create','reload'],
                     ]);
     }
 

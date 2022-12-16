@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
             'email'     => 'admin.mk@mail.com',
             'phone'     => '085772077222',
             'password'  => bcrypt('12345678'),
-            'sign'      => '',
+            'sign'      => null,
             'is_active' => true
         ]);
         DB::table('model_has_position')->insert([
@@ -41,7 +41,7 @@ class UserSeeder extends Seeder
             'email'     => 'sm.mk@mail.com',
             'phone'     => '085772077222',
             'password'  => bcrypt('12345678'),
-            'sign'      => '',
+            'sign'      => null,
             'is_active' => true
         ]);
         DB::table('model_has_position')->insert([
@@ -60,7 +60,7 @@ class UserSeeder extends Seeder
             'email'     => 'assm.mk@mail.com',
             'phone'     => '085772077222',
             'password'  => bcrypt('12345678'),
-            'sign'      => '',
+            'sign'      => null,
             'is_active' => true
         ]);
         DB::table('model_has_position')->insert([
@@ -79,7 +79,7 @@ class UserSeeder extends Seeder
             'email'     => 'gm.mk@mail.com',
             'phone'     => '085772077222',
             'password'  => bcrypt('12345678'),
-            'sign'      => '',
+            'sign'      => null,
             'is_active' => true
         ]);
         DB::table('model_has_position')->insert([
@@ -98,7 +98,7 @@ class UserSeeder extends Seeder
             'email'     => 'admin.mnd@mail.com',
             'phone'     => '085772077222',
             'password'  => bcrypt('12345678'),
-            'sign'      => '',
+            'sign'      => null,
             'is_active' => true
         ]);
         DB::table('model_has_position')->insert([
@@ -117,7 +117,7 @@ class UserSeeder extends Seeder
             'email'     => 'sm.mnd@mail.com',
             'phone'     => '085772077222',
             'password'  => bcrypt('12345678'),
-            'sign'      => '',
+            'sign'      => null,
             'is_active' => true
         ]);
         DB::table('model_has_position')->insert([
@@ -136,7 +136,7 @@ class UserSeeder extends Seeder
             'email'     => 'assm.mnd@mail.com',
             'phone'     => '085772077222',
             'password'  => bcrypt('12345678'),
-            'sign'      => '',
+            'sign'      => null,
             'is_active' => true
         ]);
         DB::table('model_has_position')->insert([
@@ -155,7 +155,7 @@ class UserSeeder extends Seeder
             'email'     => 'gm.mnd@mail.com',
             'phone'     => '085772077222',
             'password'  => bcrypt('12345678'),
-            'sign'      => '',
+            'sign'      => null,
             'is_active' => true
         ]);
         DB::table('model_has_position')->insert([

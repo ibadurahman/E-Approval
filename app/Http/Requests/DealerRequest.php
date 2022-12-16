@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DealerRequest extends FormRequest
@@ -23,8 +25,13 @@ class DealerRequest extends FormRequest
      */
     public function rules()
     {
+        $rule_dealer_unique = Rule::unique('dealers','code');
+        if($this->method() != 'POST'){
+            $rule_dealer_unique->ignore(Request::segment(2));
+        }
+        
         return [
-            'code'      => ['required','unique:dealers','numeric'],
+            'code'      => ['required',$rule_dealer_unique,'numeric'],
             'name'      => ['required','min:3'],
             'address'   => ['required','min:10'],
             'phone'     => ['required','numeric'],

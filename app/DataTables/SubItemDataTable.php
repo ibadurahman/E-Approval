@@ -33,7 +33,7 @@ class SubItemDataTable extends DataTable
                 }
                 return $item->name;
             })
-            ->addColumn('action', 'item.action')
+            ->addColumn('action', 'subItem.action')
             ->setRowId('id');
     }
 

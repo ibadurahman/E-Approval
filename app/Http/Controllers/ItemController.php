@@ -52,17 +52,6 @@ class ItemController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Item  $item
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Item $item)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Item  $item
@@ -70,7 +59,10 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
-        //
+        return view('item.edit',[
+            'title'     => 'Edit Item',
+            'item'  => $item
+        ]);
     }
 
     /**
@@ -82,17 +74,18 @@ class ItemController extends Controller
      */
     public function update(Request $request, Item $item)
     {
-        //
-    }
+        $validation = $request->validate([
+            'name'  => ['required','min:3']
+        ]);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Item  $item
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Item $item)
-    {
-        //
+        if (!$validation) {
+            return redirect()->route('item.index')->with('error','Data Item Gagal Diupdate');
+        }
+
+        $item->update([
+            'name'  => $request->name
+        ]);
+
+        return redirect()->route('item.index')->with('success','Data Item Berhasil Diupdate');
     }
 }
