@@ -41,6 +41,17 @@
                 <li class="nav-item">
                     <a href="{{route('purchaseOrder.index')}}" class="nav-link">Check PO</a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route('closePurchaseOrder.index')}}" class="nav-link">Close PO</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('approval.index')}}" class="nav-link">Approval</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        Logout
+                    </a>
+                </li>
             </ul>
 
         </div>
@@ -138,4 +149,8 @@
             </li>
         </ul>
     </div>
+
+    <form id="logout-form" action="{{ route('logout') }}" method="POST">
+        @csrf
+    </form>
 </nav>

@@ -1,0 +1,1 @@
+<a href="{{url('/approval/'.$model->id)}}"><i class="fas fa-eye"></i></a>

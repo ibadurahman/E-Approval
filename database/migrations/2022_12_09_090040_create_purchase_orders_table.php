@@ -28,7 +28,7 @@ return new class extends Migration
             $table->boolean('level_3_is_approved')->nullable();
             $table->unsignedBigInteger('level_3_approved_by')->nullable();
             $table->dateTime('level_3_approved_time')->nullable();
-            $table->enum('status',['review','approved','not approve']);
+            $table->enum('status',['review','approved','not approve','closed']);
             $table->timestamps();
 
             $table->foreign('dealer_id')

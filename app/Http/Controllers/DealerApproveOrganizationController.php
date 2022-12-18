@@ -83,12 +83,12 @@ class DealerApproveOrganizationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(DealerApproveOrganization $dealerApproveOrg)
+    public function edit(DealerApproveOrganization $dealerApproveOrganization)
     {
         return view('dealerApproveOrganization.edit',[
-            'title'             => 'Edit Dealer Approve Organization',
-            'dealers'           => Dealer::all(),
-            'dealerApproveOrg'  => $dealerApproveOrg
+            'title'                     => 'Edit Dealer Approve Organization',
+            'dealers'                   => Dealer::all(),
+            'dealerApproveOrganization' => $dealerApproveOrganization
         ]);
     }
 
@@ -99,9 +99,9 @@ class DealerApproveOrganizationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(DealerApproveOrganizationRequest $request, DealerApproveOrganization $dealerApproveOrg)
+    public function update(DealerApproveOrganizationRequest $request, DealerApproveOrganization $dealerApproveOrganization)
     {
-        $dealerApproveOrg->update([
+        $dealerApproveOrganization->update([
             'dealer_id'             => $request->dealer_id,
             'level_1_position_id'   => $request->level_1_approval,
             'level_1_user_id'       => $request->level_1_user_id,

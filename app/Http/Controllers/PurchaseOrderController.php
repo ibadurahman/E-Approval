@@ -128,6 +128,36 @@ class PurchaseOrderController extends Controller
             });;
         }
 
+        $is_approved = [
+            'level_1_approved_by'   => null,
+            'level_1_approved_sign' => null,
+            'level_2_approved_by'   => null,
+            'level_2_approved_sign' => null,
+            'level_3_approved_by'   => null,
+            'level_3_approved_sign' => null,
+        ];
+        if (!is_null($purchaseOrder->level_1_is_approved)) {
+            $is_approved['level_1_approved_by']     = $purchaseOrder->level_1_is_approved;
+            $is_approved['level_1_approved_sign']   = call_user_func(function() use ($purchaseOrder){
+                $user = User::where('id',$purchaseOrder->level_1_is_approved)->first();
+                return $user->sign;
+            });
+        }
+        if (!is_null($purchaseOrder->level_2_is_approved)) {
+            $is_approved['level_2_approved_by']     = $purchaseOrder->level_2_is_approved;
+            $is_approved['level_2_approved_sign']   = call_user_func(function() use ($purchaseOrder){
+                $user = User::where('id',$purchaseOrder->level_2_is_approved)->first();
+                return $user->sign;
+            });
+        }
+        if (!is_null($purchaseOrder->level_3_is_approved)) {
+            $is_approved['level_3_approved_by']     = $purchaseOrder->level_3_is_approved;
+            $is_approved['level_3_approved_sign']   = call_user_func(function() use ($purchaseOrder){
+                $user = User::where('id',$purchaseOrder->level_3_is_approved)->first();
+                return $user->sign;
+            });
+        }
+
         return view('purchaseOrder.show',[
             'title'         => $purchaseOrder->po_num,
             'purchaseOrder' => $purchaseOrder,
@@ -136,6 +166,7 @@ class PurchaseOrderController extends Controller
             'items'         => PurchaseOrderItem::where('purchase_order_id',$purchaseOrder->id)->get(),
             'attachments'   => DB::table('po_create_has_files')->where('po_num_id',$purchaseOrder->po_num)->get(),
             'approval'      => $approvals,
+            'is_approved'   => $is_approved,
         ]);
     }
 

@@ -39,6 +39,13 @@ Route::get('/purchaseOrder/{dealer}/create',[App\Http\Controllers\PurchaseOrderC
 Route::get('/purchaseOrder/{purchaseOrder}/downloadFile/{fileName}',[App\Http\Controllers\PurchaseOrderController::class,'downloadFile']);
 Route::resource('/purchaseOrder',App\Http\Controllers\PurchaseOrderController::class);
 
+Route::get('/closePurchaseOrder/{dealer}/create/{purchaseOrder}',[App\Http\Controllers\ClosePurchaseOrderController::class,'create']);
+Route::resource('/closePurchaseOrder',App\Http\Controllers\ClosePurchaseOrderController::class);
+
+Route::get('/approval/{purchaseOrder}/downloadFile/{fileName}',[App\Http\Controllers\ApprovalController::class,'downloadFile']);
+Route::post('/approval/applySign',[App\Http\Controllers\ApprovalController::class,'applySign']);
+Route::resource('/approval',App\Http\Controllers\ApprovalController::class);
+
 Route::post('/dealerApproveOrganization/getPersonCharge',[App\Http\Controllers\DealerApproveOrganizationController::class,'getPersonCharge']);
 Route::post('/dealerApproveOrganization/getPosition',[App\Http\Controllers\DealerApproveOrganizationController::class,'getPosition']);
 Route::resource('/dealerApproveOrganization',App\Http\Controllers\DealerApproveOrganizationController::class);

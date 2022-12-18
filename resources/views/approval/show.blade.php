@@ -107,6 +107,7 @@
                             <hr class="border border-primary border-3 opacity-75">
                             <h3 class="text-center">Approval</h3>
                             <br>
+                            
                             <table class="table no-border">
                                 <tr>
                                     <td class="col-4 text-center" id="level-1">
@@ -128,7 +129,13 @@
                                 <tr>
                                     <td class="col-4 text-center">
                                         @if (!is_null($approval['level_1_name']))
-                                            @if (!is_null($is_approved['level_1_approved_by']))
+                                            @if (!$is_approved['level_1_approved_by'] && $purchaseOrder->level_1_approved_by == Auth::user()->id)
+                                                <a class="btn btn-success" href=""
+                                                    onclick="event.preventDefault();
+                                            document.getElementById('sign-level').value = 'level_1';
+                                            document.getElementById('sign-form').submit();">Sign
+                                                    Here</a>
+                                            @else
                                                 <img src="{{ asset('images\sign\\' . $is_approved['level_1_approved_sign']) }}"
                                                     class="img" alt="" width="30%">
                                             @endif
@@ -136,7 +143,13 @@
                                     </td>
                                     <td class="col-4 text-center">
                                         @if (!is_null($approval['level_2_name']))
-                                            @if (!is_null($is_approved['level_2_approved_by']))
+                                            @if (!$is_approved['level_2_approved_by'] && $purchaseOrder->level_2_approved_by == Auth::user()->id)
+                                                <a class="btn btn-success" href=""
+                                                    onclick="event.preventDefault();
+                                            document.getElementById('sign-level').value = 'level_2';
+                                            document.getElementById('sign-form').submit();">Sign
+                                                    Here</a>
+                                            @else
                                                 <img src="{{ asset('images\sign\\' . $is_approved['level_2_approved_sign']) }}"
                                                     class="img" alt="" width="30%">
                                             @endif
@@ -144,7 +157,13 @@
                                     </td>
                                     <td class="col-4 text-center">
                                         @if (!is_null($approval['level_3_name']))
-                                            @if (!is_null($is_approved['level_3_approved_by']))
+                                            @if (!$is_approved['level_3_approved_by'] && $purchaseOrder->level_3_approved_by == Auth::user()->id)
+                                                <a class="btn btn-success" href=""
+                                                    onclick="event.preventDefault();
+                                            document.getElementById('sign-level').value = 'level_3';
+                                            document.getElementById('sign-form').submit();">Sign
+                                                    Here</a>
+                                            @else
                                                 <img src="{{ asset('images\sign\\' . $is_approved['level_3_approved_sign']) }}"
                                                     class="img" alt="" width="30%">
                                             @endif
@@ -169,6 +188,12 @@
                                     </th>
                                 </tr>
                             </table>
+                            <form id="sign-form" action="{{ url('approval/applySign') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="po_id" value="{{$purchaseOrder->id}}">
+                                <input type="hidden" name="sign_level" value="" id="sign-level">
+                                <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                            </form>
                         </div>
                     </div>
                 </div>

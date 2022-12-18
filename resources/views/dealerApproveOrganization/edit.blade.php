@@ -7,14 +7,14 @@
             <div class="col-lg-12">
                 <div class="card card-primary card-outline">
                     <div class="card-body">
-                        <form action="{{route('dealerApproveOrganization.update',$dealerApproveOrg)}}" method="POST">
+                        <form action="{{route('dealerApproveOrganization.update',$dealerApproveOrganization)}}" method="POST">
                             @csrf
                             @method('PUT')
                             <div class="form-group">
                                 <label for="">Dealer</label>
                                 <select name="dealer_id" id="dealer-id" class="form-select @error('dealer_id') is-invalid @enderror">
                                     @foreach ($dealers as $dealer)
-                                        <option value="{{$dealer->id}}" @if ($dealer->id == $dealerApproveOrg->dealer_id)
+                                        <option value="{{$dealer->id}}" @if ($dealer->id == $dealerApproveOrganization->dealer_id)
                                             selected
                                         @endif>{{$dealer->name}}</option>
                                     @endforeach

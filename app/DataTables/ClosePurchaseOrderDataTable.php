@@ -4,18 +4,18 @@ namespace App\DataTables;
 
 use App\Models\User;
 use App\Models\Dealer;
-use App\Models\SubItem;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderItem;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use App\Models\ClosePurchaseOrder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
-class PurchaseOrderDataTable extends DataTable
+class ClosePurchaseOrderDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -23,15 +23,15 @@ class PurchaseOrderDataTable extends DataTable
      * @param mixed $query Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
-    public function dataTable(QueryBuilder $query) : EloquentDataTable
+    public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
                     ->addIndexColumn()
-                    ->addColumn('dealer',function(PurchaseOrder $purchaseOrder){
+                    ->addColumn('dealer',function(ClosePurchaseOrder $purchaseOrder){
                         $dealer = Dealer::where('id',$purchaseOrder->dealer_id)->first();
                         return $dealer->name;
                     })
-                    ->addColumn('nominal',function(PurchaseOrder $purchaseOrder){
+                    ->addColumn('nominal',function(ClosePurchaseOrder $purchaseOrder){
                         $items = PurchaseOrderItem::where('purchase_order_id',$purchaseOrder->id)->get();
                         $totalPrice = 0;
                         foreach ($items as $item) {
@@ -40,22 +40,23 @@ class PurchaseOrderDataTable extends DataTable
 
                         return $totalPrice;
                     })
-                    ->addColumn('created_by',function(PurchaseOrder $purchaseOrder){
+                    ->addColumn('created_by',function(ClosePurchaseOrder $purchaseOrder){
                         $user = User::where('id',$purchaseOrder->created_by)->first();
                         return $user->name;
                     })
-                    ->addColumn('action', 'purchaseOrder.action')
+                    ->addColumn('action', 'closePurchaseOrder.action')
                     ->setRowId('id');
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\PurchaseOrderDataTable $model
+     * @param \App\Models\ClosePurchaseOrderDataTable $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(PurchaseOrder $model): QueryBuilder
+    public function query(ClosePurchaseOrder $model): QueryBuilder
     {
+        $model->table = 'purchase_orders';
         return $model->where('status','approved')->newQuery();
     }
 
@@ -106,8 +107,8 @@ class PurchaseOrderDataTable extends DataTable
      *
      * @return string
      */
-    protected function filename(): string
+    protected function filename():string
     {
-        return 'PurchaseOrder_' . date('YmdHis');
+        return 'ClosePurchaseOrder_' . date('YmdHis');
     }
 }
